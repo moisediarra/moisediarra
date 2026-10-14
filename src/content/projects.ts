@@ -11,7 +11,7 @@ export const projects = [
     featured: true,
     status: "live",
     stack: ["Next.js 16", "TypeScript", "Claude API", "Streaming", "Tailwind CSS"],
-    links: { source: "", demo: "" },
+    links: { source: "https://github.com/moisediarra/moisediarra", demo: "" },
   },
   {
     id: "digital-wallet",
@@ -39,7 +39,7 @@ export const projects = [
   {
     id: "taskflow",
     stack: ["Java 21", "Spring Boot 4", "PostgreSQL", "WebSocket", "React 19", "TanStack Query", "Tailwind CSS"],
-    links: { source: "", demo: "" },
+    links: { source: "https://github.com/moisediarra/TaskFlow", demo: "" },
   },
   {
     id: "vpms",
@@ -48,14 +48,15 @@ export const projects = [
   },
   {
     id: "hope-and-love",
+    status: "live",
     stack: ["Next.js 16", "TypeScript", "Tailwind CSS 4", "Vercel"],
-    links: { source: "", demo: "" },
+    links: { source: "https://github.com/moisediarra/hopeandlove", demo: "https://hopeandlove.vercel.app" },
   },
   {
     id: "lumora-bank",
     status: "demo",
     stack: ["React 19", "TypeScript", "Vite", "Recharts"],
-    links: { source: "", demo: "" },
+    links: { source: "https://github.com/moisediarra/LumoraBank", demo: "https://lumora-bank.vercel.app" },
   },
 ] as const satisfies readonly Project[];
 

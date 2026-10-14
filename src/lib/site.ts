@@ -21,7 +21,7 @@ export const site = {
   linkedin: "",
 
   /** e.g. "https://github.com/your-handle" */
-  github: "",
+  github: "https://github.com/moisediarra",
 
   /** Downloadable résumé for each language, served from public/cv/. */
   cv: {
