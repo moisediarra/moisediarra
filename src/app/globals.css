@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
+/*
+ * Colour tokens. Light is the base; dark applies when the OS prefers it (unless the visitor
+ * picked light) or when the visitor picked dark with the theme toggle.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #f8f6f1;
+  --surface: #ffffff;
+  --surface-2: #f1ede4;
+  --border: #e3ddd0;
+  --fg: #15171c;
+  --muted: #5a5e67;
+  --accent: #b45309;
+  --accent-strong: #92400e;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(180 83 9 / 0.09);
+  --ok: #047857;
+  --grid: rgb(21 23 28 / 0.055);
+  --glow: rgb(217 119 6 / 0.16);
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --bg: #0b0d11;
+    --surface: #12151b;
+    --surface-2: #191d25;
+    --border: #262c37;
+    --fg: #eceae4;
+    --muted: #9ba1ab;
+    --accent: #f5b041;
+    --accent-strong: #fbc56a;
+    --accent-fg: #1b1205;
+    --accent-soft: rgb(245 176 65 / 0.11);
+    --ok: #34d399;
+    --grid: rgb(236 234 228 / 0.045);
+    --glow: rgb(245 176 65 / 0.13);
+    color-scheme: dark;
   }
 }
 
+:root[data-theme="dark"] {
+  --bg: #0b0d11;
+  --surface: #12151b;
+  --surface-2: #191d25;
+  --border: #262c37;
+  --fg: #eceae4;
+  --muted: #9ba1ab;
+  --accent: #f5b041;
+  --accent-strong: #fbc56a;
+  --accent-fg: #1b1205;
+  --accent-soft: rgb(245 176 65 / 0.11);
+  --ok: #34d399;
+  --grid: rgb(236 234 228 / 0.045);
+  --glow: rgb(245 176 65 / 0.13);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps section headings clear of the fixed header when jumping to an anchor. */
+  scroll-padding-top: 5.5rem;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Hero backdrop: a faint grid fading out from the top, with a warm glow. */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 35%, transparent 75%);
+}
+
+.hero-glow {
+  background: radial-gradient(closest-side, var(--glow), transparent);
+}
+
+/* Theme toggle: show the icon of the theme you would switch to. */
+.theme-icon-sun {
+  display: none;
+}
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-icon-sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .theme-icon-moon {
+    display: none;
+  }
+}
+
+/* Sections fade in as they scroll into view, in browsers that support scroll-driven animations. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* Agent trace in the hero: steps appear one after another. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .trace-step {
+    animation: step-in 0.45s ease-out both;
+    animation-delay: calc(0.35s + var(--i) * 0.45s);
+  }
+  .caret {
+    animation: caret 1s steps(1) infinite;
+  }
 }
